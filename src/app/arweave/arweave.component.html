@@ -1,0 +1,53 @@
+<div>
+  <div class="row">
+    <div class="col">
+      <button
+        class="btn btn-outline-info"
+        (click)="file.click()"
+        >Upload Arweave key
+      </button>
+      <input 
+      style="display:none"
+      type="file" 
+      (change)="handleFileInput(file)" 
+      #file>
+    </div>
+    <div [hidden]="publicAddress===''" class="col-md-7">
+      Public Address: {{publicAddress}}
+    </div>
+    <div *ngIf="publicAddress!=='' && !showList" class="col">
+      <button  (click)="onShowList()"class="btn btn-outline-dark">Show JSON List</button>
+    </div>
+    <div *ngIf="publicAddress!=='' && showList" class="col">
+      <button  (click)="onHideList()"class="btn btn-dark">Hide JSON List</button>
+    </div>
+  </div>
+  <div [hidden]="!showList" class="card-columns py-2" >
+    <div class="card" *ngFor="let item of jsonList">
+      <div (click)="onClickJson(item)" data-toggle="modal" data-target="#jsonModal" class="card-body" style="cursor: pointer;">
+        <p class="card-text text-truncate" style="max-width: 300px;">{{item}}</p>
+      </div>
+    </div>
+  </div>
+ </div>
+ <div class="row pt-2 pl-3">
+  <button [disabled]="isSubmitting" [hidden]="publicAddress===''" (click)="onSaveJson()"class="btn btn-outline-primary">Save JSON</button>
+</div>
+<div class="modal fade" id="jsonModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">JSON</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre>{{currentItem}}</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
